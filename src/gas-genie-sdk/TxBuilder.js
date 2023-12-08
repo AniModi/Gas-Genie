@@ -1,15 +1,14 @@
 import { bundlerActions, getSenderAddress, signUserOperationHashWithECDSA } from "permissionless"
 import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
-import { concat, createClient, createPublicClient, encodeFunctionData, http } from "viem"
+import { concat, createClient, createPublicClient, encodeFunctionData, http, formatGwei } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { baseGoerli, lineaTestnet, polygonMumbai } from "viem/chains"
 
 const txBuilder = async ({ chain, to, value, data }) => {
-
     const resolver = chain => {
-        if (chain === 'linea-testnet') return lineaTestnet
-        else if (chain === 'base-goerli') return baseGoerli
-        else if (chain === 'mumbai') return polygonMumbai
+        if (chain === 'linea-testnet') return [lineaTestnet, 59140]
+        else if (chain === 'base-goerli') return [baseGoerli, 84531]
+        else if (chain === 'mumbai') return [polygonMumbai, 80001]
     }
 
     const publicClient = createPublicClient({
@@ -22,13 +21,13 @@ const txBuilder = async ({ chain, to, value, data }) => {
 
     const bundlerClient = createClient({
         transport: http(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`),
-        chain: resolver(chain)
+        chain: resolver(chain)[0]
     }).extend(bundlerActions).extend(pimlicoBundlerActions)
 
     const paymasterClient = createClient({
         // ⚠️ using v2 of the API ⚠️ 
         transport: http(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`),
-        chain: resolver(chain)
+        chain: resolver(chain)[0]
     }).extend(pimlicoPaymasterActions)
 
     const pkey = generatePrivateKey()
@@ -67,15 +66,24 @@ const txBuilder = async ({ chain, to, value, data }) => {
         args: [to, value, data]
     })
 
-    const gasPrice = await bundlerClient.getUserOperationGasPrice()
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({chainId: resolver(chain)[1]})
+    }
+    
+    const infuraGasApiCall = await fetch('http://localhost:8000/gas', options)
+    const gasPrice = await infuraGasApiCall.json()
 
     const userOperation = {
         sender,
         nonce: 0n,
         initCode,
         callData,
-        maxFeePerGas: gasPrice.fast.maxFeePerGas,
-        maxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas,
+        maxFeePerGas: gasPrice.high.suggestedMaxFeePerGas*10**9,
+        maxPriorityFeePerGas: gasPrice.high.suggestedMaxPriorityFeePerGas*10**9,
         // dummy signature, needs to be there so the SimpleAccount doesn't immediately revert because of invalid signature length
         signature: "0xa15569dd8f8324dbeabf8073fdec36d4b754f53ce5901e283c6de79af177dc94557fa3c9922cd7af2a96ca94402d35c39f266925ee6407aeb32b31d76978d4ba1c"
     }
@@ -96,7 +104,7 @@ const txBuilder = async ({ chain, to, value, data }) => {
     const signature = await signUserOperationHashWithECDSA({
         account: owner,
         userOperation: sponsoredUserOperation,
-        chainId: lineaTestnet.id,
+        chainId: resolver(chain)[0].id,
         entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
     })
     sponsoredUserOperation.signature = signature
@@ -106,15 +114,9 @@ const txBuilder = async ({ chain, to, value, data }) => {
         entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
     })
 
-    console.log("Received User Operation hash:", userOperationHash)
-
-    // let's also wait for the userOperation to be included, by continually querying for the receipts
-    console.log("Querying for receipts...")
     const receipt = await bundlerClient.waitForUserOperationReceipt({ hash: userOperationHash })
     const txHash = receipt.receipt.transactionHash
-
-    console.log(`UserOperation included: https://goerli.lineascan.build/tx/${txHash}`)
-
+    console.log(`${txHash}`)
 }
 
 export default txBuilder;

@@ -36,6 +36,7 @@
       width: 50%;
       margin-left: 10%;
       & > button {
+        margin-bottom: 0.5rem;
         padding: 0rem 2rem;
         height: 20%;
         font-size: 1.25rem;
@@ -47,6 +48,13 @@
           cursor: pointer;
           background-color: rgb(247, 1, 247);
         }
+      }
+    }
+    &__aadhar_link a{
+      margin: 2rem;
+      text-decoration: none;
+      &:hover{
+        color: yellow
       }
     }
   }

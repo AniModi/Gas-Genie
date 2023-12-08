@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Landing.scss";
 import logo from "../../assets/landing.svg";
 import { useSDK } from "@metamask/sdk-react-ui";
-import txBuilder from "../../gas-genie-sdk/TxBuilder.js";
 
 export default function Landing() {
   const { connected } = useSDK()
@@ -20,11 +19,14 @@ export default function Landing() {
           to their location.
         </div>
         <div className="landing_container__left__button">
-          <button 
-          disabled = {!connected} className={!connected ? "disabled" : ""} 
-          onClick={txBuilder}>
-            {!connected ? "Connect Metamask First!" : "Verify Aadhaar"}
+          <button
+            disabled={!connected} className={!connected ? "disabled" : ""}
+            onClick={()=>null}>
+            {!connected ? "Connect Metamask First!" : "Verify with Anon Aadhar NFT"}
           </button>
+          <div className="landing_container__left__aadhar_link">
+            <a href="/anon-aadhar">Don't have an aadhar NFT? Get it now</a>
+          </div>
         </div>
       </div>
       <div className="landing_container__right">
