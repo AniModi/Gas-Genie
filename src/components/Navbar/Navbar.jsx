@@ -1,5 +1,6 @@
 import React from "react";
 import "./Navbar.scss";
+import { MetaMaskButton } from "@metamask/sdk-react-ui";
 
 export default function Navbar() {
   return (
@@ -11,7 +12,7 @@ export default function Navbar() {
           </div>
         </div>
         <div className = "nav_container__right">
-          <button>Connect</button>
+          <MetaMaskButton></MetaMaskButton>
         </div>
       </nav>
     </>
