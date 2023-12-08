@@ -2,12 +2,17 @@ import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Landing from "./containers/Landing/Landing";
 import Navbar from "./components/Navbar/Navbar";
+import Home from "./containers/Home/Home";
 
 function App() {
   const paths = [
     {
       path: "/",
       component: Landing,
+    },
+    {
+      path: "/home",
+      component: Home,
     },
   ];
   return (
