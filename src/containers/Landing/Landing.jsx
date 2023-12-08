@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./Landing.scss";
 import logo from "../../assets/landing.svg";
+import { useSDK } from "@metamask/sdk-react-ui";
+import txBuilder from "../../gas-genie-sdk/TxBuilder.js";
 
 export default function Landing() {
-  const [isConnected, setIsConnected] = useState(false);
+  const { connected } = useSDK()
+
   return (
     <div className="landing_container">
       <div className="landing_container__left">
@@ -17,8 +20,10 @@ export default function Landing() {
           to their location.
         </div>
         <div className="landing_container__left__button">
-          <button disabled = {!isConnected} className={!isConnected ? "disabled" : ""}>
-            {!isConnected ? "Connect Metamask First!" : "Verify Aadhaar"}
+          <button 
+          disabled = {!connected} className={!connected ? "disabled" : ""} 
+          onClick={txBuilder}>
+            {!connected ? "Connect Metamask First!" : "Verify Aadhaar"}
           </button>
         </div>
       </div>
