@@ -1,0 +1,28 @@
+.nav_container {
+    display: flex;
+    height: 60px;
+    width: 100vw;
+    background-color: #010409;
+
+    &__left {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        & > * {
+            margin-left: 2rem;
+        }
+    }
+    &__right {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        & > * {
+            margin-right: 2rem;
+            color: black;
+        }
+    }
+}
