@@ -7,7 +7,7 @@ export default function GasCoupon() {
   const [expiry, setExpiry] = useState("31st December 2023 (UTC)");
   return (
     <div className="gas_coupon_border">
-      <div className="gas_coupon_container" onClick={()=>txBuilder({chain: 'linea-testnet'})}>
+      <div className="gas_coupon_container" onClick={()=>null}>
         <div className="gas_coupon_container__limit">
           <p style={{ textAlign: 'center' }}>
             <pre>

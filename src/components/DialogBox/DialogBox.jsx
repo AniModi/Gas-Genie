@@ -16,10 +16,10 @@ export default function DialogBox({ isOpen, setIsOpen }) {
         </div>
         <div className="dialog_box_container__body">
           <div className="dialog_box_container__body__button">
-            <button><pre>🎞️ Watch an ad</pre></button>
+            <button>🎞️ Watch an ad</button>
           </div>
           <div className="dialog_box_container__body__button">
-            <button><pre>🙆‍♂️ Invite a friend</pre></button>
+            <button>🙆‍♂️ Invite a friend</button>
           </div>
         </div>
       </div>
