@@ -1,0 +1,70 @@
+.option_box_container {
+    border-radius: 8px;
+    width: 500px;
+    height: 300px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: black;
+  
+    &__close_container {
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px;
+  
+      &__close_btn {
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        & > button {
+          color: white;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+  
+    &__title {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      & > h1 {
+        text-align: center;
+      }
+    }
+  
+    &__body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+  
+      &__button {
+        margin-bottom: 12px;
+  
+        button {
+          background-color: #6f42c1;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+  
+          &:hover {
+            background-color: darken(#6f42c1, 10%);
+          }
+        }
+      }
+    }
+  }
+  
