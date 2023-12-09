@@ -37,7 +37,7 @@ export default function Home() {
       <div className="home_container">
         <div className="home_container__header">
           <div className="home_container__header__title">
-            <p>My Passes</p>
+            <p>🎟️ My Gas Cards</p>
           </div>
           <div className="home_container__header__btn_container">
             <button onClick={() => navigate("/home/leaderboard")}>Leaderboard</button>
