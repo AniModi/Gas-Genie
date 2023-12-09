@@ -8,7 +8,8 @@
       display: flex;
       height: 10%;
       width: 100%;
-      border-bottom: 1px solid gray;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid gray;
       &__title {
         font-size: 1.5rem;
         width: 50%;
@@ -27,15 +28,15 @@
   
         & > button {
           font-size: 1rem;
-          background-color: green;
+          font-weight: bold;
+          background: linear-gradient(#6f42c1, #7226ff, #9b67fd);
           border: none;
-          padding: 0.5rem;
+          padding: 0.7rem;
           border-radius: 0.5rem;
           margin-right: 1rem;
           cursor: pointer;
-
           &:hover {
-            background-color: darkgreen;
+            background-color: rgb(132, 55, 132);
           }
         }
       }

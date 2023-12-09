@@ -12,14 +12,14 @@ export default function DialogBox({ isOpen, setIsOpen }) {
           </div>
         </div>
         <div className="dialog_box_container__title">
-          <h1>Get more coupons</h1>
+          <h1>Get more gas cards 🎟️</h1>
         </div>
         <div className="dialog_box_container__body">
           <div className="dialog_box_container__body__button">
-            <button>Watch an add</button>
+            <button><pre>🎞️ Watch an ad</pre></button>
           </div>
           <div className="dialog_box_container__body__button">
-            <button>Refer a friend</button>
+            <button><pre>🙆‍♂️ Invite a friend</pre></button>
           </div>
         </div>
       </div>

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import "./Landing.scss";
 import logo from "../../assets/landing.svg";
 import { useSDK } from "@metamask/sdk-react-ui";
+import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
+  const navigate = useNavigate()
   const { connected } = useSDK()
 
   return (
@@ -21,7 +23,7 @@ export default function Landing() {
         <div className="landing_container__left__button">
           <button
             disabled={!connected} className={!connected ? "disabled" : ""}
-            onClick={()=>null}>
+            onClick={() => navigate('./home')}>
             {!connected ? "Connect Metamask First!" : "Verify with Anon Aadhar NFT"}
           </button>
           <div className="landing_container__left__aadhar_link">

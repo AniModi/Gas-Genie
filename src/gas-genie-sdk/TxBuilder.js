@@ -10,7 +10,7 @@ const txBuilder = async ({ chain, to, value, data }) => {
         else if (chain === 'base-goerli') return [baseGoerli, 84531, "https://goerli.base.org"]
         else if (chain === 'mumbai') return [polygonMumbai, 80001, "https://rpc.ankr.com/polygon_mumbai"]
     }
-
+    
     const publicClient = createPublicClient({
         transport: http(resolver(chain)[2]),
         chain: resolver(chain)[0]
@@ -50,21 +50,36 @@ const txBuilder = async ({ chain, to, value, data }) => {
         initCode,
         entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
     })
-
-    const callData = encodeFunctionData({
-        abi: [{
-            inputs: [
-                { name: "dest", type: "address" },
-                { name: "value", type: "uint256" },
-                { name: "func", type: "bytes" },
+    
+    // const _data = encodeFunctionData({
+    //     abi: [
+    //         {
+    //             "inputs": [],
+    //             "name": "mint",
+    //             "outputs": [],
+    //             "stateMutability": "nonpayable",
+    //             "type": "function"
+    //         },
+    //     ],
+    //     args: []
+    // })
+    const callData =
+        encodeFunctionData({
+            abi: [
+                {
+                    inputs: [
+                        { name: "dest", type: "address" },
+                        { name: "value", type: "uint256" },
+                        { name: "func", type: "bytes" }
+                    ],
+                    name: "execute",
+                    outputs: [],
+                    stateMutability: "nonpayable",
+                    type: "function"
+                }
             ],
-            name: "execute",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-        }],
-        args: [to, value, data]
-    })
+            args: [to, value, data]
+        })
 
     const options = {
         method: 'POST',
@@ -75,15 +90,15 @@ const txBuilder = async ({ chain, to, value, data }) => {
     }
 
     let gasPrice = ''
-    if(chain!=='base-goerli'){
+    if (chain !== 'base-goerli') {
         const infuraGasApiCall = await fetch('http://localhost:8000/gas', options)
         gasPrice = await infuraGasApiCall.json()
     }
     else {
         gasPrice = bundlerClient.getUserOperationGasPrice()
         gasPrice["high"] = {
-            suggestedMaxFeePerGas: gasPrice.fast.maxFeePerGas/10**9,
-            suggestedMaxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas/10**9
+            suggestedMaxFeePerGas: gasPrice.fast.maxFeePerGas / 10 ** 9,
+            suggestedMaxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas / 10 ** 9
         }
     }
 
@@ -125,8 +140,9 @@ const txBuilder = async ({ chain, to, value, data }) => {
     })
 
     const receipt = await bundlerClient.waitForUserOperationReceipt({ hash: userOperationHash })
+
     const txHash = receipt.receipt.transactionHash
-    console.log(`${txHash}`)
+    console.log(txHash)
 }
 
 export default txBuilder;
