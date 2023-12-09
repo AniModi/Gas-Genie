@@ -1,4 +1,4 @@
-.home_container {
+.partner_offers_container {
   padding: 2rem;
   width: calc(100% - 4rem);
   height: calc(100% - 4rem);
@@ -62,7 +62,7 @@
           rgba(251, 7, 217, 1) 90%,
           rgba(255, 0, 0, 1) 100%
         );
-        animation: 10s rotate linear infinite;
+        animation: 2s rotate linear infinite;
         background-attachment: fixed;
         border-radius: 0.5rem;
 
@@ -77,48 +77,16 @@
     }
   }
   &__body {
-    height: 100%;
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    height: fit-content;
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &__offer {
+      width: 80%;
+      height: 300px;
+    }
   }
-}
-
-@keyframes rotate {
-  to {
-    --angle: 360deg;
-  }
-}
-
-@property --angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-.home_button_border {
-  --angle: 0deg;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: fit-content;
-  width: fit-content;
-  padding: 1.5px;
-  background: linear-gradient(
-    var(--angle),
-    rgba(255, 0, 0, 1) 0%,
-    rgba(255, 154, 0, 1) 10%,
-    rgba(208, 222, 33, 1) 20%,
-    rgba(79, 220, 74, 1) 30%,
-    rgba(63, 218, 216, 1) 40%,
-    rgba(47, 201, 226, 1) 50%,
-    rgba(28, 127, 238, 1) 60%,
-    rgba(95, 21, 242, 1) 70%,
-    rgba(186, 12, 248, 1) 80%,
-    rgba(251, 7, 217, 1) 90%,
-    rgba(255, 0, 0, 1) 100%
-  );
-  animation: 10s rotate linear infinite;
-  border-radius: 1rem;
-  background-attachment: fixed;
 }

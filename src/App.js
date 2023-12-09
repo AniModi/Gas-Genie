@@ -4,6 +4,7 @@ import Landing from "./containers/Landing/Landing";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./containers/Home/Home";
 import { MetaMaskUIProvider } from "@metamask/sdk-react-ui";
+import PartnerOffers from "./containers/PartnerOffers/PartnerOffers";
 
 function App() {
   const paths = [
@@ -14,6 +15,10 @@ function App() {
     {
       path: "/home",
       component: Home,
+    },
+    {
+      path: "/home/partner-offers",
+      component: PartnerOffers,
     }
   ];
   return (

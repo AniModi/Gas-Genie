@@ -1,7 +1,12 @@
 .dialog_box_container {
   border-radius: 8px;
+<<<<<<< HEAD
   width: 390px;
   height: 250px;
+=======
+  width: 500px;
+  height: 300px;
+>>>>>>> c29371edd6a0f82489e32c66d4f0be855523a5a5
   position: fixed;
   top: 50%;
   left: 50%;
@@ -21,6 +26,7 @@
       cursor: pointer;
       font-size: 16px;
       & > button {
+        color: white;
         background-color: transparent;
         border: none;
         cursor: pointer;
