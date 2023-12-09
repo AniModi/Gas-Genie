@@ -11,7 +11,7 @@ export default function Landing() {
       <div className="landing_container__left">
         <div className="landing_container__left__title">
           <span>GAS</span>
-          <span>BUDDY</span>
+          <span>GENIE</span>
         </div>
         <div className="landing_container__left__body">
           Gas Buddy is a web application that allows users to find the cheapest
@@ -25,7 +25,7 @@ export default function Landing() {
             {!connected ? "Connect Metamask First!" : "Verify with Anon Aadhar NFT"}
           </button>
           <div className="landing_container__left__aadhar_link">
-            <a href="/anon-aadhar">Don't have an aadhar NFT? Get it now</a>
+            <a href="http://localhost:3001/">Don't have an aadhar NFT? Get it now</a>
           </div>
         </div>
       </div>

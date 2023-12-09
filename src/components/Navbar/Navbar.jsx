@@ -8,7 +8,7 @@ export default function Navbar() {
       <nav className="nav_container">
         <div className = "nav_container__left">
           <div className = "nav_container__left__name">
-            Gas Buddy
+            Gas Genie
           </div>
         </div>
         <div className = "nav_container__right">

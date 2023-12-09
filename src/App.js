@@ -14,7 +14,7 @@ function App() {
     {
       path: "/home",
       component: Home,
-    },
+    }
   ];
   return (
     <>
