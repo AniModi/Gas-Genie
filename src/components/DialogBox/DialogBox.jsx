@@ -1,7 +1,9 @@
 import React from "react";
 import "./DialogBox.scss";
+import {useNavigate} from "react-router-dom";
 
 export default function DialogBox({ isOpen, setIsOpen, setOpenOptions }) {
+  const navigate = useNavigate();
   return (
     isOpen && (
       <>
@@ -26,7 +28,9 @@ export default function DialogBox({ isOpen, setIsOpen, setOpenOptions }) {
               </button>
             </div>
             <div className="dialog_box_container__body__button">
-              <button>Refer a friend</button>
+              <button onClick={() => {
+                navigate("/home/friends")
+              }}>Refer a friend</button>
             </div>
           </div>
         </div>

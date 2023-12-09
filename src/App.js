@@ -6,6 +6,7 @@ import Home from "./containers/Home/Home";
 import { MetaMaskUIProvider } from "@metamask/sdk-react-ui";
 import PartnerOffers from "./containers/PartnerOffers/PartnerOffers";
 import Leaderboard from "./containers/Leaderboard/Leaderboard";
+import FriendGraph from "./containers/FriendGraph/FriendGraph";
 
 function App() {
   const paths = [
@@ -24,6 +25,10 @@ function App() {
     {
       path: "home/leaderboard",
       component: Leaderboard,
+    },
+    {
+      path: "home/friends",
+      component: FriendGraph
     }
   ];
   return (
