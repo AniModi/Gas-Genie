@@ -1,19 +1,19 @@
 import { bundlerActions, getSenderAddress, signUserOperationHashWithECDSA } from "permissionless"
 import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
-import { concat, createClient, createPublicClient, encodeFunctionData, http, formatGwei } from "viem"
+import { concat, createClient, createPublicClient, encodeFunctionData, http } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { baseGoerli, lineaTestnet, polygonMumbai } from "viem/chains"
 
 const txBuilder = async ({ chain, to, value, data }) => {
     const resolver = chain => {
-        if (chain === 'linea-testnet') return [lineaTestnet, 59140]
-        else if (chain === 'base-goerli') return [baseGoerli, 84531]
-        else if (chain === 'mumbai') return [polygonMumbai, 80001]
+        if (chain === 'linea-testnet') return [lineaTestnet, 59140, "https://rpc.goerli.linea.build/"]
+        else if (chain === 'base-goerli') return [baseGoerli, 84531, "https://goerli.base.org"]
+        else if (chain === 'mumbai') return [polygonMumbai, 80001, "https://rpc.ankr.com/polygon_mumbai"]
     }
 
     const publicClient = createPublicClient({
-        transport: http("https://rpc.goerli.linea.build/"),
-        chain: lineaTestnet
+        transport: http(resolver(chain)[2]),
+        chain: resolver(chain)[0]
     })
 
     // find the list of chain names on the Pimlico verifying paymaster reference page
@@ -71,19 +71,29 @@ const txBuilder = async ({ chain, to, value, data }) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({chainId: resolver(chain)[1]})
+        body: JSON.stringify({ chainId: resolver(chain)[1] })
     }
-    
-    const infuraGasApiCall = await fetch('http://localhost:8000/gas', options)
-    const gasPrice = await infuraGasApiCall.json()
+
+    let gasPrice = ''
+    if(chain!=='base-goerli'){
+        const infuraGasApiCall = await fetch('http://localhost:8000/gas', options)
+        gasPrice = await infuraGasApiCall.json()
+    }
+    else {
+        gasPrice = bundlerClient.getUserOperationGasPrice()
+        gasPrice["high"] = {
+            suggestedMaxFeePerGas: gasPrice.fast.maxFeePerGas/10**9,
+            suggestedMaxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas/10**9
+        }
+    }
 
     const userOperation = {
         sender,
         nonce: 0n,
         initCode,
         callData,
-        maxFeePerGas: gasPrice.high.suggestedMaxFeePerGas*10**9,
-        maxPriorityFeePerGas: gasPrice.high.suggestedMaxPriorityFeePerGas*10**9,
+        maxFeePerGas: gasPrice.high.suggestedMaxFeePerGas * 10 ** 9,
+        maxPriorityFeePerGas: gasPrice.high.suggestedMaxPriorityFeePerGas * 10 ** 9,
         // dummy signature, needs to be there so the SimpleAccount doesn't immediately revert because of invalid signature length
         signature: "0xa15569dd8f8324dbeabf8073fdec36d4b754f53ce5901e283c6de79af177dc94557fa3c9922cd7af2a96ca94402d35c39f266925ee6407aeb32b31d76978d4ba1c"
     }

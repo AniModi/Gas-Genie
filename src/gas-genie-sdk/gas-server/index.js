@@ -24,6 +24,7 @@ app.post("/gas", async (req, res) => {
             Authorization: `Basic ${Auth}`,
         }
     }
+    
     const apiResponse = await axios.get(
         `https://gas.api.infura.io/networks/${payload.chainId}/suggestedGasFees`,
         options
