@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@xmtp/react-sdk": "^3.0.0",
     "anon-aadhaar-react": "^0.1.14",
     "next": "13.4.9",
     "react": "^18",

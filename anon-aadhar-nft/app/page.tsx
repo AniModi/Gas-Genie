@@ -8,6 +8,7 @@ import {
 } from "anon-aadhaar-react";
 import txBuilder from "../../src/gas-genie-sdk/TxBuilder";
 import styles from "./page.module.css";
+import { MetaMaskButton } from "@metamask/sdk-react-ui"
 
 export default function Home() {
   const [anonAadhaar, x] = useAnonAadhaar();
@@ -52,38 +53,41 @@ export default function Home() {
   }
 
   return (
-    <AnonAadhaarProvider _appId="1269609176096593778878666309409951343617561853952">
-      <div className={styles.border}>
-        <div className={styles.container}>
-          <div className={styles.top}>
-            {proof && (
-              <>
-                <h1>Proofs</h1>
-                <table className={styles.proofTable}>
-                  <tbody>
-                    <tr>
-                      <td>Pi_a:</td>
-                      <td>{proof.pi_a.toString().slice(0, 30)}...</td>
-                    </tr>
-                    <tr>
-                      <td>Pi_b:</td>
-                      <td>{proof.pi_b.toString().slice(0, 30)}...</td>
-                    </tr>
-                    <tr>
-                      <td>Pi_c:</td>
-                      <td>{proof.pi_c.toString().slice(0, 30)}...</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </>
-            )}
-          </div>
-          <div className={styles.bottom}>
-            <LogInWithAnonAadhaar />
-            <button className={styles.mint}>🖨️ MINT</button>
+    <>
+      <AnonAadhaarProvider _appId="1269609176096593778878666309409951343617561853952">
+        <div className={styles.border}>
+          <div className={styles.container}>
+            <div className={styles.top}>
+              {proof && (
+                <>
+                  <h1>Proofs</h1>
+                  <table className={styles.proofTable}>
+                    <tbody>
+                      <tr>
+                        <td>Pi_a:</td>
+                        <td>{proof.pi_a.toString().slice(0, 30)}...</td>
+                      </tr>
+                      <tr>
+                        <td>Pi_b:</td>
+                        <td>{proof.pi_b.toString().slice(0, 30)}...</td>
+                      </tr>
+                      <tr>
+                        <td>Pi_c:</td>
+                        <td>{proof.pi_c.toString().slice(0, 30)}...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </>
+              )}
+            </div>
+            <div className={styles.bottom}>
+              <LogInWithAnonAadhaar />
+              <button className={styles.mint}>🖨️ MINT</button>
+            </div>
+            <MetaMaskButton />
           </div>
         </div>
-      </div>
-    </AnonAadhaarProvider>
+      </AnonAadhaarProvider>
+    </>
   );
 }

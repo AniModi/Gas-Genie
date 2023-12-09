@@ -1,6 +1,8 @@
+'use client'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { MetaMaskUIProvider } from "@metamask/sdk-react-ui"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <MetaMaskUIProvider sdkOptions={{
+        dappMetadata: {
+          name: "Demo UI React App",
+        }
+      }}>
+        <body className={inter.className}>{children}</body>
+      </MetaMaskUIProvider>
     </html>
   )
 }
