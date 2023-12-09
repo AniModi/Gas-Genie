@@ -52,8 +52,12 @@
     }
     &__aadhar_link a{
       text-decoration: none;
+      color: white;
       &:hover{
         color: yellow
+      }
+      &:visited{
+        text-decoration: none;
       }
     }
   }

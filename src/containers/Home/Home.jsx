@@ -3,8 +3,10 @@ import "./Home.scss";
 import GasCoupon from "../../components/GasCoupon/GasCoupon";
 import DialogBox from "../../components/DialogBox/DialogBox";
 import useToggle from "../../hooks/useToggle";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useToggle(false);
   return (
     <>
@@ -17,7 +19,7 @@ export default function Home() {
           <div className="home_container__header__btn_container">
             <button onClick={setIsOpen}>Leaderboard</button>
             <div className="home_container__header__btn_container__border">
-              <button onClick={setIsOpen}>Partner Offers</button>
+              <button onClick={() => navigate('partner-offers')}>Partner Offers</button>
             </div>
             <button onClick={setIsOpen}>Acquire Instantly</button>
           </div>
