@@ -4,6 +4,10 @@ import { darkTheme } from "reagraph";
 import { GraphCanvas } from "reagraph";
 import { init, useQuery } from "@airstack/airstack-react"
 import { zkNftBase, zkNftLinea } from "../../constants"
+import txBuilder from "../../gas-genie-sdk/TxBuilder";
+import { gasNftLinea, gasNftBase } from "../../constants";
+import { useSDK } from "@metamask/sdk-react-ui";
+import { encodeFunctionData } from "viem";
 init("1a8fede6b9fa44ddfb305486b3cfea3a0")
 const query = `TokenBalances(
   input: {
@@ -24,6 +28,7 @@ const query = `TokenBalances(
 }
 }`
 export default function FriendGraph() {
+  const { account, chainId } = useSDK()
   const { data, loading } = useQuery(query)
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
@@ -44,7 +49,7 @@ export default function FriendGraph() {
         ...nodes,
         {
           id: `${i}`,
-          label: `Node ${i}`,
+          label: `Pal ${i}`,
           size: Math.floor(Math.random(0, 10) * 100) % 10,
           fill: "#6f42c1",
           data: {
@@ -69,6 +74,39 @@ export default function FriendGraph() {
 
   function handleNodeClick(node) {
     setNode(node);
+    const data = encodeFunctionData({
+      abi: [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gasLimit",
+              "type": "uint256"
+            }
+          ],
+          "name": "mint",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }],
+      args: [account, 1]
+    })
+    let chainName = ''
+    let contractAddress = ''
+    if (chainId == 59140) {
+      chainName = 'linea-testnet'
+      contractAddress = gasNftLinea
+    }
+    else if (chainId == 84531) {
+      chainName = 'base-goerli'
+      contractAddress = gasNftBase
+    }
+    txBuilder({chain: chainName, value: 0, to: contractAddress, data})
     setShow(true);
     console.log(node);
   }
@@ -79,10 +117,11 @@ export default function FriendGraph() {
         <>
           <div className="friend_details_container">
             <div className="friend_details_container__address">
-              <b>Address : </b> 0x1234567890
+              <b>Address : </b> 0x36fc6...313e3
             </div>
             <div className="friend_details_container__details">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, sint!
+                Attended Eth India !<br/>
+                Attended Eth Istanbul !
             </div>
             <div className="friend_details_container__btn">
                 <button onClick={handleInvite}>

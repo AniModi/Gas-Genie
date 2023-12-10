@@ -21,6 +21,14 @@ export default function PartnerOffers() {
       availBtn: "Participate",
     },
     {
+      src: "https://images.mirror-media.xyz/publication-images/cgqxxPdUFBDjgKna_dDir.png?height=1200&width=1200",
+      about: "Solve the issue #187 of base-org/pessimism on Github",
+      offer: "Upto 0.002 ETH worth of gas ⛽",
+      availsLeft: 0,
+      totalAvails: 1,
+      availBtn: "Solve Now",
+    },
+    {
       src: "https://i.pinimg.com/originals/b3/8a/a1/b38aa1b21050b0e769a97eb751d12829.png",
       about:
         "Order anything worth $60 from your favorite restaurants with the Swiggy app.",
@@ -28,14 +36,6 @@ export default function PartnerOffers() {
       availsLeft: 7,
       totalAvails: 10,
       availBtn: "Order Now",
-    },
-    {
-      src: "https://images.mirror-media.xyz/publication-images/cgqxxPdUFBDjgKna_dDir.png?height=1200&width=1200",
-      about: "Solve the issue #187 of base-org/pessimism on Github",
-      offer: "Upto 0.002 ETH worth of gas ⛽",
-      availsLeft: 0,
-      totalAvails: 1,
-      availBtn: "Solve Now",
     },
   ];
 
