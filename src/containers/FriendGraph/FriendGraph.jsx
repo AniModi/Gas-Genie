@@ -2,8 +2,29 @@ import React, { useState, useEffect } from "react";
 import "./FriendGraph.scss";
 import { darkTheme } from "reagraph";
 import { GraphCanvas } from "reagraph";
-
+import { init, useQuery } from "@airstack/airstack-react"
+import { zkNftBase, zkNftLinea } from "../../constants"
+init("1a8fede6b9fa44ddfb305486b3cfea3a0")
+const query = `TokenBalances(
+  input: {
+    filter: {
+      tokenAddress: { _eq: ${zkNftLinea} }
+    }
+    blockchain: linea-testnet
+  }
+) {
+  TokenBalance {
+    owner {
+      xmtp {
+        isXMTPEnabled
+      }
+      addresses
+    }
+  }
+}
+}`
 export default function FriendGraph() {
+  const { data, loading } = useQuery(query)
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
 

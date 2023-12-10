@@ -3,16 +3,32 @@ import "./Landing.scss";
 import logo from "../../assets/landing.svg";
 import { useSDK } from "@metamask/sdk-react-ui";
 import { useNavigate } from "react-router-dom";
+import { ethers } from 'ethers'
+import { aadharAbi, zkNftLinea, zkNftBase } from "../../constants";
 
 export default function Landing() {
   const navigate = useNavigate()
-  const { connected } = useSDK()
+  const { connected, account, chainId } = useSDK()
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+  const verify = async () => {
+    let contractAddress = ''
+    if (chainId == 59140) {
+      contractAddress = zkNftLinea
+    }
+    else if (chainId == 84531) {
+      contractAddress = zkNftBase
+    }
+    const contract = new ethers.Contract(contractAddress, aadharAbi, provider)
+    const isVerified = await contract.isVerified(account)
+    if (isVerified) navigate('./home')
+  }
 
   return (
     <div className="landing_container">
       <div className="landing_container__left">
         <div className="landing_container__left__title">
-          <span>GAS</span>
+          <span>GAS - </span>
           <span>GENIE</span>
         </div>
         <div className="landing_container__left__body">
@@ -23,7 +39,7 @@ export default function Landing() {
         <div className="landing_container__left__button">
           <button
             disabled={!connected} className={!connected ? "disabled" : ""}
-            onClick={() => navigate('./home')}>
+            onClick={verify}>
             {!connected ? "Connect Metamask First!" : "Verify with Anon Aadhar NFT"}
           </button>
           <div className="landing_container__left__aadhar_link">

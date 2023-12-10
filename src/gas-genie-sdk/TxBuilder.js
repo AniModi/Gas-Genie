@@ -95,10 +95,10 @@ const txBuilder = async ({ chain, to, value, data }) => {
         gasPrice = await infuraGasApiCall.json()
     }
     else {
-        gasPrice = bundlerClient.getUserOperationGasPrice()
+        gasPrice = await bundlerClient.getUserOperationGasPrice()
         gasPrice["high"] = {
-            suggestedMaxFeePerGas: gasPrice.fast.maxFeePerGas / 10 ** 9,
-            suggestedMaxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas / 10 ** 9
+            suggestedMaxFeePerGas: gasPrice.fast.maxFeePerGas.toString() / 10 ** 9,
+            suggestedMaxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas.toString() / 10 ** 9
         }
     }
 
